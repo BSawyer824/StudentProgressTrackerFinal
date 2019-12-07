@@ -14,7 +14,7 @@ import java.util.Date;
  Term Entity is the object class that will be used to hold all Term objects
  ********************************************************/
 
-@Entity(tableName="term_table", indices = {@Index(value = {"term_id"})})
+@Entity(tableName="term_table", indices = {@Index(value="term_name", unique=true), @Index(value="term_id", unique=true)})
 public class TermEntity {
 
     //*****************************************************************
@@ -69,6 +69,39 @@ public class TermEntity {
     //Other Methods
 
 
+    public int getTermID() {
+        return termID;
+    }
+
+    public void setTermID(int termID) {
+        this.termID = termID;
+    }
+
+    @NonNull
+    public String getTermName() {
+        return termName;
+    }
+
+    public void setTermName(@NonNull String termName) {
+        this.termName = termName;
+    }
+
+    public Date getTermStart() {
+        return termStart;
+    }
+
+    public void setTermStart(Date termStart) {
+        this.termStart = termStart;
+    }
+
+    public Date getTermEnd() {
+        return termEnd;
+    }
+
+    public void setTermEnd(Date termEnd) {
+        this.termEnd = termEnd;
+    }
+
     @Override
     public String toString() {
         return "TermEntity{" +
@@ -78,40 +111,6 @@ public class TermEntity {
                 ", termEnd=" + termEnd +
                 '}';
     }
-
-
-    public int getTermID() {
-        return termID;
-    }
-    public String getTermName() {
-        return termName;
-    }
-    public Date getTermStart() {
-        return termStart;
-    }
-    public Date getTermEnd() {
-        return termEnd;
-    }
-
-
-
-    public void setTermID(int termID) {
-        this.termID = termID;
-    }
-
-    public void setTermName(String termName) {
-        this.termName = termName;
-    }
-
-    public void setTermStart(Date termStart) {
-        this.termStart = termStart;
-    }
-
-    public void setTermEnd(Date termEnd) {
-        this.termEnd = termEnd;
-    }
-
-
 }
 
 

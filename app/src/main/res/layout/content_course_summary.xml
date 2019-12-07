@@ -8,4 +8,16 @@
     tools:context=".CourseSummaryActivity"
     tools:showIn="@layout/activity_course_summary">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_AllCourses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollbars="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

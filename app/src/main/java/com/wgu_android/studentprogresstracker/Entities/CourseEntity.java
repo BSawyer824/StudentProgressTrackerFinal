@@ -15,7 +15,9 @@ import java.util.Date;
  ********************************************************/
 
 
-@Entity(tableName="course_table", indices = {@Index(value = {"course_id"}), @Index(value = {"fk_term_id"})}, foreignKeys = {@ForeignKey(entity = TermEntity.class, parentColumns = "term_id", childColumns = "fk_term_id")})
+@Entity(tableName="course_table", indices = {@Index(value = {"course_id"}), @Index(value = {"fk_term_id"}), @Index(value={"fk_term_name"})},
+        foreignKeys = {@ForeignKey(entity = TermEntity.class, parentColumns = "term_id", childColumns = "fk_term_id"),
+        @ForeignKey(entity = TermEntity.class, parentColumns = "term_name", childColumns = "fk_term_name")})
 public class CourseEntity {
 
     //*********************************************************
@@ -51,12 +53,15 @@ public class CourseEntity {
     @ColumnInfo(name="fk_term_id")
     private int fkTermId;
 
+    @ColumnInfo(name="fk_term_name")
+    private String fkTermName;
+
     //*********************************************************
     //Constructor
     @Ignore
     public CourseEntity(String courseName, Date courseStart, Date courseEnd, String courseStatus,
                         String courseMentorName, String courseMentorPhone, String courseMentorEmail,
-                        String courseNotes, int fkTermId) {
+                        String courseNotes, int fkTermId, String fkTermName) {
 
         this.courseName = courseName;
         this.courseStart = courseStart;
@@ -67,6 +72,7 @@ public class CourseEntity {
         this.courseStatus = courseStatus;
         this.courseNotes = courseNotes;
         this.fkTermId = fkTermId;
+        this.fkTermName = fkTermName;
     }
 
 
@@ -75,11 +81,12 @@ public class CourseEntity {
         this.courseName= courseName;
     }
 
-    public CourseEntity(String courseName, Date courseStart, Date courseEnd, int fkTermId) {
+    public CourseEntity(String courseName, Date courseStart, Date courseEnd, int fkTermId, String fkTermName) {
         this.courseName = courseName;
         this.courseStart = courseStart;
         this.courseEnd = courseEnd;
         this.fkTermId = fkTermId;
+        this.fkTermName = fkTermName;
     }
 
     //*********************************************************
@@ -162,6 +169,14 @@ public class CourseEntity {
 
     public void setFkTermId(int fkTermId) {
         this.fkTermId = fkTermId;
+    }
+
+    public String getFkTermName() {
+        return fkTermName;
+    }
+
+    public void setFkTermName(String fkTermName) {
+        this.fkTermName = fkTermName;
     }
 
     @Override

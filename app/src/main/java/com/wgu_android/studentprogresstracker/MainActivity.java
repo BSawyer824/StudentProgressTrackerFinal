@@ -5,9 +5,11 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.wgu_android.studentprogresstracker.ViewModels.MainViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.view.View;
 import android.view.Menu;
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btnAssessments)
     Button mBtnAssessments;
 
+    private MainViewModel mViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
+        initViewModel();
 
         //Button to open up a list of All Terms
         final Button buttonTerms = mBtnTerms;
@@ -76,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void initViewModel() {
+        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -100,10 +109,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void deleteAllData() {
-        //mViewModel.deleteAllData();
+        mViewModel.deleteAllData();
     }
 
     private void addSampleData() {
-        //mViewModel.addSampleData();
+        mViewModel.addSampleData();
     }
 }
