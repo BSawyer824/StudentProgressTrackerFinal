@@ -10,6 +10,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".AssessmentSummaryActivity"
+            android:label="@string/title_activity_assessment_summary"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wgu_android.studentprogresstracker.MainActivity" />
+        </activity>
+        <activity
+            android:name=".CourseSummaryActivity"
+            android:label="@string/title_activity_course_summary"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wgu_android.studentprogresstracker.MainActivity" />
+        </activity>
+        <activity
             android:name=".TermSummaryActivity"
             android:label="@string/title_activity_term_summary"
             android:parentActivityName=".MainActivity"

@@ -7,5 +7,7 @@
     <string name="add_sample_data">Add Sample Data</string>
     <string name="delete_all">Delete All Data</string>
     <string name="title_activity_term_summary">TermSummaryActivity</string>
+    <string name="title_activity_course_summary">CourseSummaryActivity</string>
+    <string name="title_activity_assessment_summary">AssessmentSummaryActivity</string>
 
 </resources>

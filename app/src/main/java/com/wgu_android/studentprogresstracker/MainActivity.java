@@ -1,5 +1,6 @@
 package com.wgu_android.studentprogresstracker;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -11,8 +12,25 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.LIST_ASSESSMENT_ACTIVITY_REQUEST_CODE;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.LIST_COURSE_ACTIVITY_REQUEST_CODE;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.LIST_TERM_ACTIVITY_REQUEST_CODE;
 
 public class MainActivity extends AppCompatActivity {
+
+    @BindView(R.id.btnViewTerms)
+    Button mBtnTerms;
+
+    @BindView(R.id.btnCourses)
+    Button mBtnCourses;
+
+    @BindView(R.id.btnAssessments)
+    Button mBtnAssessments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +39,40 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        ButterKnife.bind(this);
+
+        //Button to open up a list of All Terms
+        final Button buttonTerms = mBtnTerms;
+        buttonTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentTerm = new Intent(MainActivity.this, TermSummaryActivity.class);
+                startActivityForResult(intentTerm, LIST_TERM_ACTIVITY_REQUEST_CODE);
+
+            }
+        });
+
+        //Button to open up a list of All Courses
+        final Button buttonCourses = mBtnCourses;
+        buttonCourses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentCourse = new Intent(MainActivity.this, CourseSummaryActivity.class);
+                startActivityForResult(intentCourse, LIST_COURSE_ACTIVITY_REQUEST_CODE);
+
+            }
+        });
+
+        //Button to open up a list of All Courses
+        final Button buttonAssessment = mBtnAssessments;
+        buttonAssessment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentAssessment = new Intent(MainActivity.this, AssessmentSummaryActivity.class);
+                startActivityForResult(intentAssessment, LIST_ASSESSMENT_ACTIVITY_REQUEST_CODE);
+
+            }
+        });
 
     }
 
