@@ -9,5 +9,10 @@
     <string name="title_activity_term_summary">TermSummaryActivity</string>
     <string name="title_activity_course_summary">CourseSummaryActivity</string>
     <string name="title_activity_assessment_summary">AssessmentSummaryActivity</string>
+    <string name="title_activity_term_detail">TermDetailActivity</string>
+    <string name="term_end">Term End</string>
+    <string name="term_name">Term Name</string>
+    <string name="term_start">Term Start</string>
+    <string name="action_delete_term">Delete Term</string>
 
 </resources>

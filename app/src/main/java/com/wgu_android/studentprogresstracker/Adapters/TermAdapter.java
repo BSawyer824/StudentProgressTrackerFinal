@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.wgu_android.studentprogresstracker.Entities.TermEntity;
 import com.wgu_android.studentprogresstracker.R;
+import com.wgu_android.studentprogresstracker.TermDetailActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,6 +23,9 @@ import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.TERM_KEY_ID;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.TERM_NAME;
 
 public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
 
@@ -79,10 +83,10 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
         holder.mTextView_TermName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext, TermDetailActivity.class);
-//                intent.putExtra(TERM_KEY_ID, term.getTermID());
-//                intent.putExtra(TERM_NAME, term.getTermName());
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, TermDetailActivity.class);
+                intent.putExtra(TERM_KEY_ID, term.getTermID());
+                intent.putExtra(TERM_NAME, term.getTermName());
+                mContext.startActivity(intent);
             }
         });
 

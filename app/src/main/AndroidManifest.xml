@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".TermDetailActivity"
+            android:label="@string/title_activity_term_detail"
+            android:parentActivityName=".TermSummaryActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wgu_android.studentprogresstracker.TermSummaryActivity" />
+        </activity>
+        <activity
             android:name=".AssessmentSummaryActivity"
             android:label="@string/title_activity_assessment_summary"
             android:parentActivityName=".MainActivity"
