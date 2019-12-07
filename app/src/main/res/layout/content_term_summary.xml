@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:ellipsize="end"
-        android:maxLines="3"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:scrollbars="vertical"

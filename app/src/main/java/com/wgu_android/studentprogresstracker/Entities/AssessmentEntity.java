@@ -14,7 +14,10 @@ Assessment Entity is the object class that will be used to hold all Assessment o
  ********************************************************/
 
 
-@Entity(tableName="assessment_table", indices = {@Index(value = {"assessment_id"}), @Index(value={"fk_course_id"})}, foreignKeys = {@ForeignKey(entity = CourseEntity.class, parentColumns = "course_id", childColumns = "fk_course_id")})
+@Entity(tableName="assessment_table",
+        indices = {@Index(value = {"assessment_id"}), @Index(value={"fk_course_id"}), @Index(value="fk_course_name", unique=true)},
+        foreignKeys = {@ForeignKey(entity = CourseEntity.class, parentColumns = "course_id", childColumns = "fk_course_id"),
+        @ForeignKey(entity = CourseEntity.class, parentColumns = "course_name", childColumns = "fk_course_name")})
 public class AssessmentEntity {
 
 
@@ -40,25 +43,30 @@ public class AssessmentEntity {
     @ColumnInfo(name="fk_course_id")
     private int fkCourseId;
 
+    @ColumnInfo(name="fk_course_name")
+    private String fkCourseName;
+
     //*********************************************************
     //Constructor
     @Ignore
-    public AssessmentEntity(int assessmentID, String assessmentName, String assessmentType, Date assessmentGoalDate, Date assessmentDueDate, int fkCourseId) {
+    public AssessmentEntity(int assessmentID, String assessmentName, String assessmentType, Date assessmentGoalDate, Date assessmentDueDate, int fkCourseId, String fkCourseName) {
         this.assessmentID = assessmentID;
         this.assessmentName = assessmentName;
         this.assessmentType = assessmentType;
         this.assessmentGoalDate = assessmentGoalDate;
         this.assessmentDueDate = assessmentDueDate;
         this.fkCourseId = fkCourseId;
+        this.fkCourseName = fkCourseName;
     }
 
 
-    public AssessmentEntity(String assessmentName, String assessmentType, Date assessmentGoalDate, Date assessmentDueDate, int fkCourseId) {
+    public AssessmentEntity(String assessmentName, String assessmentType, Date assessmentGoalDate, Date assessmentDueDate, int fkCourseId, String fkCourseName) {
         this.assessmentName = assessmentName;
         this.assessmentType = assessmentType;
         this.assessmentGoalDate = assessmentGoalDate;
         this.assessmentDueDate = assessmentDueDate;
         this.fkCourseId = fkCourseId;
+        this.fkCourseName = fkCourseName;
     }
 
     //*********************************************************
@@ -109,6 +117,14 @@ public class AssessmentEntity {
 
     public void setFkCourseId(int fkCourseId) {
         this.fkCourseId = fkCourseId;
+    }
+
+    public String getFkCourseName() {
+        return fkCourseName;
+    }
+
+    public void setFkCourseName(String fkCourseName) {
+        this.fkCourseName = fkCourseName;
     }
 
     @Override

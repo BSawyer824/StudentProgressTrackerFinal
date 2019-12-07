@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.wgu_android.studentprogresstracker.Entities.CourseEntity;
+import com.wgu_android.studentprogresstracker.Entities.AssessmentEntity;
 import com.wgu_android.studentprogresstracker.R;
 
 import java.text.DateFormat;
@@ -22,13 +22,13 @@ import java.util.TimeZone;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
+public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.ViewHolder> {
 
-    private List<CourseEntity> mCourses;
+    private final List<AssessmentEntity> mAssessments;
     private final Context mContext;
 
-    public CourseAdapter(List<CourseEntity> mCourses, Context mContext) {
-        this.mCourses = mCourses;
+    public AssessmentsAdapter(List<AssessmentEntity> mAssessments, Context mContext) {
+        this.mAssessments = mAssessments;
         this.mContext = mContext;
     }
 
@@ -36,38 +36,36 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.course_item_list, parent, false);
+        View view = inflater.inflate(R.layout.assessment_item_list, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final CourseEntity course = mCourses.get(position);
+        final AssessmentEntity assessment = mAssessments.get(position);
 
         //assign start and end dates to a string
-        Date startDate = course.getCourseStart();
-        Date endDate = course.getCourseEnd();
+        Date goalDate = assessment.getAssessmentGoalDate();
+        Date dueDate = assessment.getAssessmentDueDate();
         DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        String strDate = dateFormat.format(startDate);
-        String strDateEnd = dateFormat.format(endDate);
-        String label = course.getCourseName() + " \n   " + strDate + "  to  " + strDateEnd
-                + "\n   Assigned to: " + course.getFkTermName();
-
-        holder.mTextViewCourseName.setText(label);
+        String strDateGoal = dateFormat.format(goalDate);
+        String strDateDue = dateFormat.format(dueDate);
+        String label = assessment.getAssessmentName() + "\n   Goal Date: " + strDateGoal + ".\n   Due Date: " + strDateDue
+                + "\n   For Course: " + assessment.getFkCourseName();
 
 
+        holder.mTextViewAssessmentName.setText(label);
 
         //When a Course is clicked in the recycler view, send selected course to the next activity
-        holder.mTextViewCourseName.setOnClickListener(new View.OnClickListener() {
+        holder.mTextViewAssessmentName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext, CourseDetailActivity.class);
-//                intent.putExtra(COURSE_KEY_ID, course.getCourseID());
-//                intent.putExtra(COURSE_NAME, course.getCourseName());
-//                intent.putExtra(COURSE_STATUS, course.getCourseStatus());
-//                intent.putExtra(COURSE_TERM_ID, course.getFkTermId());
-//                intent.putExtra(COURSE_NEW, false);
+//                Intent intent = new Intent(mContext, AssessmentDetailActivity.class);
+//                intent.putExtra(ASSESMENT_KEY_ID, assessment.getAssessmentID());
+//                intent.putExtra(ASSESSMENT_NAME, assessment.getAssessmentName());
+//                intent.putExtra(ASSESSMENT_COURSE_ID, assessment.getFkCourseId());
+//                intent.putExtra(ASSESSMENT_NEW, false);
 //                mContext.startActivity(intent);
             }
         });
@@ -75,12 +73,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return mCourses.size();
+        return mAssessments.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.textView_Course_Name)
-        TextView mTextViewCourseName;
+
+        @BindView(R.id.textView_Assessment_Name)
+        TextView mTextViewAssessmentName;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -88,6 +87,4 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             ButterKnife.bind(this, itemView);
         }
     }
-
 }
-

@@ -15,7 +15,7 @@ import java.util.Date;
  ********************************************************/
 
 
-@Entity(tableName="course_table", indices = {@Index(value = {"course_id"}), @Index(value = {"fk_term_id"}), @Index(value={"fk_term_name"})},
+@Entity(tableName="course_table", indices = {@Index(value = {"course_id"}), @Index(value={"course_name"}, unique = true), @Index(value = {"fk_term_id"}), @Index(value={"fk_term_name"})},
         foreignKeys = {@ForeignKey(entity = TermEntity.class, parentColumns = "term_id", childColumns = "fk_term_id"),
         @ForeignKey(entity = TermEntity.class, parentColumns = "term_name", childColumns = "fk_term_name")})
 public class CourseEntity {
