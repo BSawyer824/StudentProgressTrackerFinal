@@ -32,6 +32,7 @@ import butterknife.ButterKnife;
 
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESMENT_KEY_ID;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_COURSE_ID;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_TYPE;
 
 public class AssessmentDetailActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener  {
 
@@ -156,6 +157,7 @@ public class AssessmentDetailActivity extends AppCompatActivity implements Adapt
             setTitle("Edit Assessment");
             assessmentId = extras.getInt(ASSESMENT_KEY_ID);
             courseId = extras.getInt(ASSESSMENT_COURSE_ID);
+            spinnerSelectedItem = extras.getString(ASSESSMENT_TYPE);
             mViewModel.loadData(assessmentId);
         }
     }

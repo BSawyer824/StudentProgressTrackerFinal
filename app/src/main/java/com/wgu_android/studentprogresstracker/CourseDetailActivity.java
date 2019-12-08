@@ -113,9 +113,9 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ButterKnife.bind(this);
-        initSpinner();
         initRecyclerView();
         initViewModel();
+        initSpinner();
 
         //TODO notes should be on an additional screen, with buttons to add or view optional note
         //TODO optional note should be able to be shared via eitehr email or sms
@@ -306,10 +306,8 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
         spinner.setAdapter(mSpinnerAdapter);
         spinner.setOnItemSelectedListener(this);
 
-        //TODO not correctly displaying the status in the spinner from the DB
         if (spinnerSelectedItem != null) {
-            int spinnerPosition = mSpinnerAdapter.getPosition(spinnerSelectedItem);
-            spinner.setSelection(spinnerPosition);
+            spinner.setSelection(getSpinnerPosition(spinner, spinnerSelectedItem));
         }
 
     }
@@ -319,13 +317,21 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String mSelectedItem = parent.getItemAtPosition(position).toString();
         spinnerSelectedItem = mSelectedItem;
-
-        //Toast.makeText(parent.getContext(), spinnerSelectedItem, Toast.LENGTH_SHORT);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public int getSpinnerPosition(Spinner spinner, String mSpinnerSelection) {
+        int position = 0;
+
+        for (int i=0; i<spinner.getCount(); i++)
+            if(spinner.getItemAtPosition(i).equals(mSpinnerSelection))
+                position = i;
+
+        return position;
     }
 
     //**************************************************************************************

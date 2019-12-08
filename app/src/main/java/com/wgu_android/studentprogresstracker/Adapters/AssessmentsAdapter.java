@@ -27,6 +27,7 @@ import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESME
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_COURSE_ID;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_NAME;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_NEW;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_TYPE;
 
 public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.ViewHolder> {
 
@@ -69,6 +70,7 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
                 intent.putExtra(ASSESMENT_KEY_ID, assessment.getAssessmentID());
                 intent.putExtra(ASSESSMENT_NAME, assessment.getAssessmentName());
                 intent.putExtra(ASSESSMENT_COURSE_ID, assessment.getFkCourseId());
+                intent.putExtra(ASSESSMENT_TYPE, assessment.getAssessmentType());
                 intent.putExtra(ASSESSMENT_NEW, false);
                 mContext.startActivity(intent);
             }
