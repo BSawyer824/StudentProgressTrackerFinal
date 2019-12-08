@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wgu_android.studentprogresstracker.AssessmentDetailActivity;
 import com.wgu_android.studentprogresstracker.Entities.AssessmentEntity;
 import com.wgu_android.studentprogresstracker.R;
 
@@ -21,6 +22,11 @@ import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESMENT_KEY_ID;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_COURSE_ID;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_NAME;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_NEW;
 
 public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.ViewHolder> {
 
@@ -48,7 +54,6 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
         Date goalDate = assessment.getAssessmentGoalDate();
         Date dueDate = assessment.getAssessmentDueDate();
         DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         String strDateGoal = dateFormat.format(goalDate);
         String strDateDue = dateFormat.format(dueDate);
         String label = assessment.getAssessmentName() + "\n   Goal Date: " + strDateGoal + ".\n   Due Date: " + strDateDue;
@@ -60,12 +65,12 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
         holder.mTextViewAssessmentName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext, AssessmentDetailActivity.class);
-//                intent.putExtra(ASSESMENT_KEY_ID, assessment.getAssessmentID());
-//                intent.putExtra(ASSESSMENT_NAME, assessment.getAssessmentName());
-//                intent.putExtra(ASSESSMENT_COURSE_ID, assessment.getFkCourseId());
-//                intent.putExtra(ASSESSMENT_NEW, false);
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, AssessmentDetailActivity.class);
+                intent.putExtra(ASSESMENT_KEY_ID, assessment.getAssessmentID());
+                intent.putExtra(ASSESSMENT_NAME, assessment.getAssessmentName());
+                intent.putExtra(ASSESSMENT_COURSE_ID, assessment.getFkCourseId());
+                intent.putExtra(ASSESSMENT_NEW, false);
+                mContext.startActivity(intent);
             }
         });
     }

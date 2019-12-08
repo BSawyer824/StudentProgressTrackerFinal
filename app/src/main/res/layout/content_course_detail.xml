@@ -38,32 +38,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewCourseName" />
 
-    <EditText
-        android:id="@+id/editTextCourseStart"
-        android:layout_width="105dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toEndOf="@+id/textViewCourseStart"
-        app:layout_constraintTop_toBottomOf="@+id/editTextCourseName" />
-
     <TextView
         android:id="@+id/textViewCourseEnd"
         android:layout_width="63dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
         android:text="@string/end_date"
         app:layout_constraintStart_toEndOf="@+id/editTextCourseStart"
-        app:layout_constraintTop_toBottomOf="@+id/editTextCourseName" />
-
-    <EditText
-        android:id="@+id/editTextCourseEnd"
-        android:layout_width="105dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toEndOf="@+id/textViewCourseEnd"
         app:layout_constraintTop_toBottomOf="@+id/editTextCourseName" />
 
     <TextView
@@ -102,8 +82,10 @@
         android:layout_marginStart="44dp"
         android:ems="10"
         android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textViewMentor"
-        app:layout_constraintTop_toBottomOf="@+id/editTextCourseEnd" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextCourseStart" />
 
     <EditText
         android:id="@+id/editTextPhone"
@@ -159,13 +141,13 @@
         android:id="@+id/textView_CourseTermId"
         android:layout_width="38dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="32dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.852"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/editTextPhone"
-        app:layout_constraintTop_toBottomOf="@+id/textView_CourseTermName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextCourseEnd" />
 
     <TextView
         android:id="@+id/textViewTestStatus"
@@ -185,13 +167,23 @@
         app:layout_constraintStart_toEndOf="@+id/spinner_status"
         app:layout_constraintTop_toBottomOf="@+id/textView_CourseTermId" />
 
-    <TextView
-        android:id="@+id/textView_CourseTermName"
-        android:layout_width="0dp"
-        android:layout_height="14dp"
-        android:layout_marginTop="8dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editTextMentor"
-        app:layout_constraintTop_toBottomOf="@+id/editTextCourseEnd" />
+    <EditText
+        android:id="@+id/editTextCourseStart"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintStart_toEndOf="@+id/textViewCourseStart"
+        app:layout_constraintTop_toBottomOf="@+id/editTextCourseName" />
+
+    <EditText
+        android:id="@+id/editTextCourseEnd"
+        android:layout_width="100dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintStart_toEndOf="@+id/textViewCourseEnd"
+        app:layout_constraintTop_toBottomOf="@+id/editTextCourseName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

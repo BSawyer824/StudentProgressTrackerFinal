@@ -55,13 +55,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         Date startDate = course.getCourseStart();
         Date endDate = course.getCourseEnd();
         DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         String strDate = dateFormat.format(startDate);
         String strDateEnd = dateFormat.format(endDate);
         String label = course.getCourseName() + " \n   " + strDate + "  to  " + strDateEnd;
 
         holder.mTextViewCourseName.setText(label);
-        
+
         //When a Course is clicked in the recycler view, send selected course to the next activity
         holder.mTextViewCourseName.setOnClickListener(new View.OnClickListener() {
             @Override

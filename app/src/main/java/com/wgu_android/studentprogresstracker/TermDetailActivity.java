@@ -264,6 +264,7 @@ public class TermDetailActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         mEditTextStartDate.setText(sdf.format(termsEntity.getTermStart()));
+        myCalendarStart.setTime(termsEntity.getTermStart());
     }
 
     private void updateLabelEnd() {
@@ -278,6 +279,7 @@ public class TermDetailActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         mEditTextEndDate.setText(sdf.format(termsEntity.getTermEnd()));
+        myCalendarEnd.setTime(termsEntity.getTermEnd());
     }
 
 }

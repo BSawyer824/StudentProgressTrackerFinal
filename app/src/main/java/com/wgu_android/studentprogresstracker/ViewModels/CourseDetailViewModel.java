@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.wgu_android.studentprogresstracker.Database.AppRepository;
 import com.wgu_android.studentprogresstracker.Entities.AssessmentEntity;
 import com.wgu_android.studentprogresstracker.Entities.CourseEntity;
+import com.wgu_android.studentprogresstracker.Entities.TermEntity;
 
 import java.util.Date;
 import java.util.List;
@@ -49,7 +50,7 @@ public class CourseDetailViewModel extends AndroidViewModel {
     }
 
     public void saveCourse(String courseName, Date courseStart, Date courseEnd, String mentorName,
-                           String mentorPhone, String mentorEmail, String courseStatus, int termId, String termName) {
+                           String mentorPhone, String mentorEmail, String courseStatus, int termId) {
 
         CourseEntity course = mLiveCourse.getValue();
         if (course == null) {
@@ -58,7 +59,7 @@ public class CourseDetailViewModel extends AndroidViewModel {
                 return;
             } else {
                 course = new CourseEntity(courseName.trim(), courseStart, courseEnd, courseStatus,
-                        mentorName, mentorPhone, mentorEmail, termId, termName);
+                        mentorName, mentorPhone, mentorEmail, termId);
             }
         } else {
             //Existing Course
@@ -70,11 +71,16 @@ public class CourseDetailViewModel extends AndroidViewModel {
             course.setCourseMentorPhone(mentorPhone);
             course.setCourseMentorEmail(mentorEmail);
             course.setFkTermId(termId);
-            course.setFkTermName(termName);
+
         }
 
         //Save to Repository
         mRepository.insertCourse(course);
+    }
+
+    public int getLiveCourseId() {
+        CourseEntity course = mLiveCourse.getValue();
+        return course.getCourseID();
     }
 }
 

@@ -70,7 +70,6 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
         Date startDate = term.getTermStart();
         Date endDate = term.getTermEnd();
         DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         String strDate = dateFormat.format(startDate);
         String strDateEnd = dateFormat.format(endDate);
         String label = term.getTermName() + "  \n   " + strDate + "  to  " + strDateEnd;

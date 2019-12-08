@@ -42,30 +42,25 @@ public class AssessmentEntity {
     @ColumnInfo(name="fk_course_id")
     private int fkCourseId;
 
-    @ColumnInfo(name="fk_course_name")
-    private String fkCourseName;
 
     //*********************************************************
     //Constructor
     @Ignore
-    public AssessmentEntity(int assessmentID, String assessmentName, String assessmentType, Date assessmentGoalDate, Date assessmentDueDate, int fkCourseId, String fkCourseName) {
+    public AssessmentEntity(int assessmentID, String assessmentName, String assessmentType, Date assessmentGoalDate, Date assessmentDueDate, int fkCourseId) {
         this.assessmentID = assessmentID;
         this.assessmentName = assessmentName;
         this.assessmentType = assessmentType;
         this.assessmentGoalDate = assessmentGoalDate;
         this.assessmentDueDate = assessmentDueDate;
         this.fkCourseId = fkCourseId;
-        this.fkCourseName = fkCourseName;
     }
 
-
-    public AssessmentEntity(String assessmentName, String assessmentType, Date assessmentGoalDate, Date assessmentDueDate, int fkCourseId, String fkCourseName) {
+    public AssessmentEntity(String assessmentName, String assessmentType, Date assessmentGoalDate, Date assessmentDueDate, int fkCourseId) {
         this.assessmentName = assessmentName;
         this.assessmentType = assessmentType;
         this.assessmentGoalDate = assessmentGoalDate;
         this.assessmentDueDate = assessmentDueDate;
         this.fkCourseId = fkCourseId;
-        this.fkCourseName = fkCourseName;
     }
 
     //*********************************************************
@@ -116,14 +111,6 @@ public class AssessmentEntity {
 
     public void setFkCourseId(int fkCourseId) {
         this.fkCourseId = fkCourseId;
-    }
-
-    public String getFkCourseName() {
-        return fkCourseName;
-    }
-
-    public void setFkCourseName(String fkCourseName) {
-        this.fkCourseName = fkCourseName;
     }
 
     @Override

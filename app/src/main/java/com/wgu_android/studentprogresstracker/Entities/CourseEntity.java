@@ -49,15 +49,13 @@ public class CourseEntity {
     @ColumnInfo(name="fk_term_id")
     private int fkTermId;
 
-    @ColumnInfo(name="fk_term_name")
-    private String fkTermName;
 
     //*********************************************************
     //Constructor
     @Ignore
     public CourseEntity(String courseName, Date courseStart, Date courseEnd, String courseStatus,
                         String courseMentorName, String courseMentorPhone, String courseMentorEmail,
-                        int fkTermId, String fkTermName) {
+                        int fkTermId) {
 
         this.courseName = courseName;
         this.courseStart = courseStart;
@@ -67,7 +65,7 @@ public class CourseEntity {
         this.courseMentorEmail = courseMentorEmail;
         this.courseStatus = courseStatus;
         this.fkTermId = fkTermId;
-        this.fkTermName = fkTermName;
+
     }
 
 
@@ -76,12 +74,11 @@ public class CourseEntity {
         this.courseName= courseName;
     }
 
-    public CourseEntity(String courseName, Date courseStart, Date courseEnd, int fkTermId, String fkTermName) {
+    public CourseEntity(String courseName, Date courseStart, Date courseEnd, int fkTermId) {
         this.courseName = courseName;
         this.courseStart = courseStart;
         this.courseEnd = courseEnd;
         this.fkTermId = fkTermId;
-        this.fkTermName = fkTermName;
     }
 
     //*********************************************************
@@ -158,13 +155,6 @@ public class CourseEntity {
         this.fkTermId = fkTermId;
     }
 
-    public String getFkTermName() {
-        return fkTermName;
-    }
-
-    public void setFkTermName(String fkTermName) {
-        this.fkTermName = fkTermName;
-    }
 
     @Override
     public String toString() {

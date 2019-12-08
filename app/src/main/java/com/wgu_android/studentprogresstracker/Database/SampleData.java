@@ -43,17 +43,17 @@ public class SampleData {
     }
 
     public static List<CourseEntity> getCourse() {
-        course.add(new CourseEntity(SAMPLE_TEXT_4, getDate(500), getDate(2500), 1, SAMPLE_TEXT_1));
-        course.add(new CourseEntity(SAMPLE_TEXT_5, getDate(5000), getDate(25000), 1, SAMPLE_TEXT_1));
-        course.add(new CourseEntity(SAMPLE_TEXT_8, getDate(5000), getDate(25000), 2, SAMPLE_TEXT_2));
+        course.add(new CourseEntity(SAMPLE_TEXT_4, getDate(500), getDate(2500), 1));
+        course.add(new CourseEntity(SAMPLE_TEXT_5, getDate(5000), getDate(25000), 1));
+        course.add(new CourseEntity(SAMPLE_TEXT_8, getDate(5000), getDate(25000), 2));
         return course;
     }
 
 
     public static List<AssessmentEntity> getAssessment() {
-        assessment.add(new AssessmentEntity(SAMPLE_TEXT_6, "Objective", getDate(750), getDate(1500), 1, SAMPLE_TEXT_4));
-        assessment.add(new AssessmentEntity(SAMPLE_TEXT_7, "Performance", getDate(2500), getDate(5000), 2, SAMPLE_TEXT_5));
-        assessment.add(new AssessmentEntity(SAMPLE_TEXT_9, "Objective", getDate(750), getDate(1500), 3, SAMPLE_TEXT_8));
+        assessment.add(new AssessmentEntity(SAMPLE_TEXT_6, "Objective", getDate(750), getDate(1500), 1));
+        assessment.add(new AssessmentEntity(SAMPLE_TEXT_7, "Performance", getDate(2500), getDate(5000), 2));
+        assessment.add(new AssessmentEntity(SAMPLE_TEXT_9, "Objective", getDate(750), getDate(1500), 3));
         return assessment;
     }
 

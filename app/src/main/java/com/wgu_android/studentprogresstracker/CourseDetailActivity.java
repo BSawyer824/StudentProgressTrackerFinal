@@ -1,6 +1,7 @@
 package com.wgu_android.studentprogresstracker;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -38,10 +39,14 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_COURSE_ID;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_NEW;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_KEY_ID;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_NEW;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_STATUS;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_TERM_ID;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.NEW_COURSE_ACTIVITY_REQUEST_CODE;
 
 public class CourseDetailActivity extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
     //**************************************************
@@ -76,8 +81,6 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
     @BindView(R.id.textView_CourseTermId)
     TextView mTextViewCourseTermId;
 
-    @BindView(R.id.textView_CourseTermName)
-    TextView mTextViewTermName;
 
     final Calendar myCalendarStart = Calendar.getInstance();
     final Calendar myCalendarEnd = Calendar.getInstance();
@@ -87,6 +90,7 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
     private String spinnerSelectedItem;
     private boolean mNewCourse;
     private int courseTermId;
+    private int courseId;
 
     //****************************************************************************
     //Assessment Variables
@@ -122,8 +126,13 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                saveAndReturn();
+                courseId = mViewModel.getLiveCourseId();
+
+                Intent intent = new Intent(CourseDetailActivity.this, AssessmentDetailActivity.class);
+                intent.putExtra(ASSESSMENT_COURSE_ID, courseId);
+                intent.putExtra(ASSESSMENT_NEW, true);
+                startActivityForResult(intent, NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE);
             }
         });
 
@@ -194,7 +203,6 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
                 mTestStatus.setText(courseEntity.getCourseStatus());
                 spinnerSelectedItem = courseEntity.getCourseStatus();
                 mTextViewCourseTermId.setText(Integer.toString(courseEntity.getFkTermId()));
-                mTextViewTermName.setText(courseEntity.getFkTermName());
                 //TODO how do I pull in the course status and assign it to the spinner
             }
         });
@@ -208,7 +216,7 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
             mTextViewCourseTermId.setText(Integer.toString(courseTermId));
         } else {
             setTitle("Edit Course");
-            int courseId = extras.getInt(COURSE_KEY_ID);
+            courseId = extras.getInt(COURSE_KEY_ID);
             courseTermId = extras.getInt(COURSE_TERM_ID);
             spinnerSelectedItem = extras.getString(COURSE_STATUS);
             mViewModel.loadData(courseId);
@@ -282,7 +290,7 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
         int termId = Integer.parseInt(mTextViewCourseTermId.getText().toString());
         mViewModel.saveCourse(mEditTextCourseName.getText().toString(), myCalendarStart.getTime(),
                 myCalendarEnd.getTime(), mEditTextMentor.getText().toString(), mEditTextPhone.getText().toString(),
-                mEditTextEmail.getText().toString(), spinnerSelectedItem, termId, mTextViewTermName.getText().toString());
+                mEditTextEmail.getText().toString(), spinnerSelectedItem, termId);
 
         finish();
     }
@@ -334,6 +342,7 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         mEditTextStartDate.setText(sdf.format(coursesEntity.getCourseStart()));
+        myCalendarStart.setTime(coursesEntity.getCourseStart());
     }
 
     private void updateLabelEnd() {
@@ -348,5 +357,6 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         mEditTextEndDate.setText(sdf.format(coursesEntity.getCourseEnd()));
+        myCalendarEnd.setTime(coursesEntity.getCourseEnd());
     }
 }
