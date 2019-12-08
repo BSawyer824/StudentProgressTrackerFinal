@@ -78,9 +78,8 @@ public class AssessmentDetailActivity extends AppCompatActivity implements Adapt
         //TODO set alerts for goal dates on assessments
 
         ButterKnife.bind(this);
-        initSpinner();
         initViewModel();
-
+        initSpinner();
 
         //*****************************************************
         //Make Goal and Due Date fields have a calendar date picker
@@ -208,10 +207,8 @@ public class AssessmentDetailActivity extends AppCompatActivity implements Adapt
         spinnerAssessment.setAdapter(mSpinnerAdapter);
         spinnerAssessment.setOnItemSelectedListener(this);
 
-        //TODO not correctly displaying the status in the spinner from the DB
         if (spinnerSelectedItem != null) {
-            int spinnerPosition = mSpinnerAdapter.getPosition(spinnerSelectedItem);
-            spinnerAssessment.setSelection(spinnerPosition);
+            spinnerAssessment.setSelection(getSpinnerPosition(spinnerAssessment, spinnerSelectedItem));
         }
     }
 
@@ -220,13 +217,22 @@ public class AssessmentDetailActivity extends AppCompatActivity implements Adapt
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String mSelectedItem = parent.getItemAtPosition(position).toString();
         spinnerSelectedItem = mSelectedItem;
-
-        //Toast.makeText(parent.getContext(), spinnerSelectedItem, Toast.LENGTH_SHORT);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+
+    public int getSpinnerPosition(Spinner spinner, String mSpinnerSelection) {
+        int position = 0;
+
+        for (int i=0; i<spinner.getCount(); i++)
+            if(spinner.getItemAtPosition(i).equals(mSpinnerSelection))
+                position = i;
+
+        return position;
     }
 
     //**************************************************************************************
