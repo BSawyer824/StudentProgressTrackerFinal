@@ -51,8 +51,7 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         String strDateGoal = dateFormat.format(goalDate);
         String strDateDue = dateFormat.format(dueDate);
-        String label = assessment.getAssessmentName() + "\n   Goal Date: " + strDateGoal + ".\n   Due Date: " + strDateDue
-                + "\n   For Course: " + assessment.getFkCourseName();
+        String label = assessment.getAssessmentName() + "\n   Goal Date: " + strDateGoal + ".\n   Due Date: " + strDateDue;
 
 
         holder.mTextViewAssessmentName.setText(label);

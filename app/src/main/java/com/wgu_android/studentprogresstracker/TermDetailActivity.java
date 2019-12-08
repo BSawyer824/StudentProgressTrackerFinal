@@ -35,6 +35,9 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_NEW;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_TERM_ID;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.NEW_COURSE_ACTIVITY_REQUEST_CODE;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.TERM_KEY_ID;
 
 public class TermDetailActivity extends AppCompatActivity {
@@ -95,13 +98,13 @@ public class TermDetailActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                saveAndReturn();
-//                termId = mViewModel.getLiveTermId();
-//
-//                Intent intent = new Intent(TermDetailActivity.this, CourseDetailActivity.class);
-//                intent.putExtra(COURSE_TERM_ID, termId);
-//                intent.putExtra(COURSE_NEW, true);
-//                startActivityForResult(intent, NEW_COURSE_ACTIVITY_REQUEST_CODE);
+                saveAndReturn();
+                termId = mViewModel.getLiveTermId();
+
+                Intent intent = new Intent(TermDetailActivity.this, CourseDetailActivity.class);
+                intent.putExtra(COURSE_TERM_ID, termId);
+                intent.putExtra(COURSE_NEW, true);
+                startActivityForResult(intent, NEW_COURSE_ACTIVITY_REQUEST_CODE);
             }
         });
 
@@ -183,8 +186,6 @@ public class TermDetailActivity extends AppCompatActivity {
         if (extras == null) {
             setTitle("New Term");
             mNewTerm = true;
-            //termId = mViewModel.generateNewTermId();
-            //mTextViewTermId.setText(Integer.toString(termId));
         } else {
 
             setTitle("Edit Term");

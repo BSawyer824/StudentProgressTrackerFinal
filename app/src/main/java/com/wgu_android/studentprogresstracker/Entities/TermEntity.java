@@ -14,7 +14,7 @@ import java.util.Date;
  Term Entity is the object class that will be used to hold all Term objects
  ********************************************************/
 
-@Entity(tableName="term_table", indices = {@Index(value="term_name", unique=true), @Index(value="term_id", unique=true)})
+@Entity(tableName="term_table", indices = {@Index(value="term_id", unique=true)})
 public class TermEntity {
 
     //*****************************************************************

@@ -15,9 +15,8 @@ Assessment Entity is the object class that will be used to hold all Assessment o
 
 
 @Entity(tableName="assessment_table",
-        indices = {@Index(value = {"assessment_id"}), @Index(value={"fk_course_id"}), @Index(value="fk_course_name", unique=true)},
-        foreignKeys = {@ForeignKey(entity = CourseEntity.class, parentColumns = "course_id", childColumns = "fk_course_id"),
-        @ForeignKey(entity = CourseEntity.class, parentColumns = "course_name", childColumns = "fk_course_name")})
+        indices = {@Index(value = {"assessment_id"}), @Index(value={"fk_course_id"})},
+        foreignKeys = {@ForeignKey(entity = CourseEntity.class, parentColumns = "course_id", childColumns = "fk_course_id")})
 public class AssessmentEntity {
 
 

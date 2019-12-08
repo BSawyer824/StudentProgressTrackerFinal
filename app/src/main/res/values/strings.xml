@@ -14,5 +14,38 @@
     <string name="term_name">Term Name</string>
     <string name="term_start">Term Start</string>
     <string name="action_delete_term">Delete Term</string>
+    <string name="title_activity_course_detail">CourseDetailActivity</string>
+    <string name="textViewTermEnd">Term End</string>
+    <string name="textViewTermName">Term Name</string>
+    <string name="textViewTermStart">Term Start</string>
+    <string name="enter_term_name">enter term name</string>
+    <string name="start">start</string>
+    <string name="end">end</string>
+    <string name="course_name">Course Name</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="status">Status</string>
+    <string name="mentor">Mentor</string>
+    <string name="mentor_phone">Mentor Phone</string>
+    <string name="mentor_email">Mentor Email</string>
+    <string name="notes">Notes</string>
+    <string name="delete_course">Delete Course</string>
+    <string name="course_notes">Notes</string>
 
+
+    <string-array name="spinner_status">
+        <item>Completed</item>
+        <item>In Progress</item>
+        <item>Plan to Take</item>
+        <item>Dropped</item>
+    </string-array>
+
+    <string-array name="spinner_types">
+        <item>Objective</item>
+        <item>Performance</item>
+    </string-array>
+
+
+    <string name="title_activity_assessment_detail">AssessmentDetailActivity</string>
+    <string name="delete_assessment">Delete Assessment</string>
 </resources>

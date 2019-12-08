@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wgu_android.studentprogresstracker.CourseDetailActivity;
 import com.wgu_android.studentprogresstracker.Entities.CourseEntity;
 import com.wgu_android.studentprogresstracker.R;
 
@@ -21,6 +22,12 @@ import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_KEY_ID;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_NAME;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_NEW;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_STATUS;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_TERM_ID;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
 
@@ -51,24 +58,21 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         String strDate = dateFormat.format(startDate);
         String strDateEnd = dateFormat.format(endDate);
-        String label = course.getCourseName() + " \n   " + strDate + "  to  " + strDateEnd
-                + "\n   Assigned to: " + course.getFkTermName();
+        String label = course.getCourseName() + " \n   " + strDate + "  to  " + strDateEnd;
 
         holder.mTextViewCourseName.setText(label);
-
-
-
+        
         //When a Course is clicked in the recycler view, send selected course to the next activity
         holder.mTextViewCourseName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext, CourseDetailActivity.class);
-//                intent.putExtra(COURSE_KEY_ID, course.getCourseID());
-//                intent.putExtra(COURSE_NAME, course.getCourseName());
-//                intent.putExtra(COURSE_STATUS, course.getCourseStatus());
-//                intent.putExtra(COURSE_TERM_ID, course.getFkTermId());
-//                intent.putExtra(COURSE_NEW, false);
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, CourseDetailActivity.class);
+                intent.putExtra(COURSE_KEY_ID, course.getCourseID());
+                intent.putExtra(COURSE_NAME, course.getCourseName());
+                intent.putExtra(COURSE_STATUS, course.getCourseStatus());
+                intent.putExtra(COURSE_TERM_ID, course.getFkTermId());
+                intent.putExtra(COURSE_NEW, false);
+                mContext.startActivity(intent);
             }
         });
     }
@@ -79,7 +83,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.textView_Course_Name)
+        @BindView(R.id.textView_RecView_CourseName)
         TextView mTextViewCourseName;
 
 

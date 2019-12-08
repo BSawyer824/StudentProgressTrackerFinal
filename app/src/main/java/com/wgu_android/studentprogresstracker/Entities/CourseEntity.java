@@ -15,9 +15,8 @@ import java.util.Date;
  ********************************************************/
 
 
-@Entity(tableName="course_table", indices = {@Index(value = {"course_id"}), @Index(value={"course_name"}, unique = true), @Index(value = {"fk_term_id"}), @Index(value={"fk_term_name"})},
-        foreignKeys = {@ForeignKey(entity = TermEntity.class, parentColumns = "term_id", childColumns = "fk_term_id"),
-        @ForeignKey(entity = TermEntity.class, parentColumns = "term_name", childColumns = "fk_term_name")})
+@Entity(tableName="course_table", indices = {@Index(value = {"course_id"}), @Index(value = {"fk_term_id"})},
+        foreignKeys = {@ForeignKey(entity = TermEntity.class, parentColumns = "term_id", childColumns = "fk_term_id")})
 public class CourseEntity {
 
     //*********************************************************
@@ -47,9 +46,6 @@ public class CourseEntity {
     @ColumnInfo(name="mentor_email")
     private String courseMentorEmail;
 
-    @ColumnInfo(name="course_notes")
-    private String courseNotes;
-
     @ColumnInfo(name="fk_term_id")
     private int fkTermId;
 
@@ -61,7 +57,7 @@ public class CourseEntity {
     @Ignore
     public CourseEntity(String courseName, Date courseStart, Date courseEnd, String courseStatus,
                         String courseMentorName, String courseMentorPhone, String courseMentorEmail,
-                        String courseNotes, int fkTermId, String fkTermName) {
+                        int fkTermId, String fkTermName) {
 
         this.courseName = courseName;
         this.courseStart = courseStart;
@@ -70,7 +66,6 @@ public class CourseEntity {
         this.courseMentorPhone = courseMentorPhone;
         this.courseMentorEmail = courseMentorEmail;
         this.courseStatus = courseStatus;
-        this.courseNotes = courseNotes;
         this.fkTermId = fkTermId;
         this.fkTermName = fkTermName;
     }
@@ -155,14 +150,6 @@ public class CourseEntity {
         this.courseMentorEmail = courseMentorEmail;
     }
 
-    public String getCourseNotes() {
-        return courseNotes;
-    }
-
-    public void setCourseNotes(String courseNotes) {
-        this.courseNotes = courseNotes;
-    }
-
     public int getFkTermId() {
         return fkTermId;
     }
@@ -190,7 +177,6 @@ public class CourseEntity {
                 ", courseMentorName='" + courseMentorName + '\'' +
                 ", courseMentorPhone='" + courseMentorPhone + '\'' +
                 ", courseMentorEmail='" + courseMentorEmail + '\'' +
-                ", courseNotes='" + courseNotes + '\'' +
                 ", fkTermId=" + fkTermId +
                 '}';
     }
