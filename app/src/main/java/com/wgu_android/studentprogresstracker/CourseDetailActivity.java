@@ -144,7 +144,7 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
             @Override
             public void onClick(View v) {
                 Intent intentNote = new Intent(CourseDetailActivity.this, CourseNoteActivity.class);
-                //intentNote.putExtra(COURSE_KEY_ID, courseId);
+                intentNote.putExtra(COURSE_KEY_ID, courseId);
                 startActivityForResult(intentNote, COURSE_NOTE_ACITIVITY_REQUEST_CODE);
             }
         });

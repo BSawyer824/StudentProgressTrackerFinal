@@ -8,10 +8,13 @@
     tools:context=".CourseNoteActivity"
     tools:showIn="@layout/activity_course_note">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+    <EditText
+        android:id="@+id/editTextCourseNote"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/enter_note"
+        android:inputType="textMultiLine|textCapSentences"
+        android:layout_margin="@dimen/text_margin"/>
+<!--        android:text="@string/large_text" -->
 
 </androidx.core.widget.NestedScrollView>
