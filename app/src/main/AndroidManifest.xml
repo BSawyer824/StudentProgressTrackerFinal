@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".CourseNoteActivity"
+            android:label="@string/title_activity_course_note"
+            android:parentActivityName=".CourseDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wgu_android.studentprogresstracker.CourseDetailActivity" />
+        </activity>
+        <activity
             android:name=".AssessmentDetailActivity"
             android:label="@string/title_activity_assessment_detail"
             android:parentActivityName=".CourseDetailActivity"

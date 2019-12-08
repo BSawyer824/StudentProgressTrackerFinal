@@ -37,6 +37,9 @@ public class CourseEntity {
     @ColumnInfo(name="course_status")
     private String courseStatus;
 
+    @ColumnInfo(name="course_note")
+    private String courseNote;
+
     @ColumnInfo(name="course_mentor")
     private String courseMentorName;
 
@@ -68,6 +71,22 @@ public class CourseEntity {
 
     }
 
+    @Ignore
+    public CourseEntity(String courseName, Date courseStart, Date courseEnd, String courseStatus,
+                        String courseNote, String courseMentorName, String courseMentorPhone,
+                        String courseMentorEmail, int fkTermId) {
+
+        this.courseName = courseName;
+        this.courseStart = courseStart;
+        this.courseEnd = courseEnd;
+        this.courseNote = courseNote;
+        this.courseMentorName = courseMentorName;
+        this.courseMentorPhone = courseMentorPhone;
+        this.courseMentorEmail = courseMentorEmail;
+        this.courseStatus = courseStatus;
+        this.fkTermId = fkTermId;
+
+    }
 
     @Ignore
     public CourseEntity(String courseName) {
@@ -145,6 +164,14 @@ public class CourseEntity {
 
     public void setCourseMentorEmail(String courseMentorEmail) {
         this.courseMentorEmail = courseMentorEmail;
+    }
+
+    public String getCourseNote() {
+        return courseNote;
+    }
+
+    public void setCourseNote(String courseNote) {
+        this.courseNote = courseNote;
     }
 
     public int getFkTermId() {

@@ -43,8 +43,10 @@ import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSM
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_NEW;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_KEY_ID;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_NEW;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_NOTE_ACITIVITY_REQUEST_CODE;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_STATUS;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_TERM_ID;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.LIST_TERM_ACTIVITY_REQUEST_CODE;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.NEW_COURSE_ACTIVITY_REQUEST_CODE;
 
@@ -72,14 +74,14 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
     @BindView(R.id.editTextEmail)
     EditText mEditTextEmail;
 
-    @BindView(R.id.btnCourseNotes)
-    Button mBtnCourseNotes;
-
     @BindView(R.id.textViewTestStatus)
     TextView mTestStatus;
 
     @BindView(R.id.textView_CourseTermId)
     TextView mTextViewCourseTermId;
+
+    @BindView(R.id.btnCourseNotes)
+    Button btnCourseNote;
 
 
     final Calendar myCalendarStart = Calendar.getInstance();
@@ -133,6 +135,17 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
                 intent.putExtra(ASSESSMENT_COURSE_ID, courseId);
                 intent.putExtra(ASSESSMENT_NEW, true);
                 startActivityForResult(intent, NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE);
+            }
+        });
+
+        //Add a note to the Course
+        final Button buttonNote = btnCourseNote;
+        buttonNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentNote = new Intent(CourseDetailActivity.this, CourseNoteActivity.class);
+                //intentNote.putExtra(COURSE_KEY_ID, courseId);
+                startActivityForResult(intentNote, COURSE_NOTE_ACITIVITY_REQUEST_CODE);
             }
         });
 
@@ -203,7 +216,6 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
                 mTestStatus.setText(courseEntity.getCourseStatus());
                 spinnerSelectedItem = courseEntity.getCourseStatus();
                 mTextViewCourseTermId.setText(Integer.toString(courseEntity.getFkTermId()));
-                //TODO how do I pull in the course status and assign it to the spinner
             }
         });
 

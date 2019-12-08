@@ -20,5 +20,6 @@ public class Constants {
     public static final int LIST_TERM_ACTIVITY_REQUEST_CODE = 1;
     public static final int LIST_COURSE_ACTIVITY_REQUEST_CODE = 1;
     public static final int LIST_ASSESSMENT_ACTIVITY_REQUEST_CODE = 1;
+    public static final int COURSE_NOTE_ACITIVITY_REQUEST_CODE = 1;
 
 }

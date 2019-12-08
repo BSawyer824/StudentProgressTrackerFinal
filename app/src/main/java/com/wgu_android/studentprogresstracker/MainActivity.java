@@ -39,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btnAssessments)
     Button mBtnAssessments;
 
+    @BindView(R.id.buttonTestNotes)
+    Button mBtnTestNotes;
+
     private MainViewModel mViewModel;
 
     @Override
@@ -84,6 +87,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Button to open course notes
+        final Button buttonNote = mBtnTestNotes;
+        buttonNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentNote = new Intent(MainActivity.this, CourseNoteActivity.class);
+                startActivityForResult(intentNote, LIST_ASSESSMENT_ACTIVITY_REQUEST_CODE);
+
+            }
+        });
     }
 
     private void initViewModel() {

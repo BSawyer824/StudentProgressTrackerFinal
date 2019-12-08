@@ -13,6 +13,9 @@ import java.util.List;
 
 public class MainViewModel extends AndroidViewModel {
 
+    //TODO notes for paper
+    //technical challenges - spinner working, not correctly looking up position, solution, chnage to a loop
+
     //********************************************
     //Variable Declarations
     private AppRepository mRepository;
