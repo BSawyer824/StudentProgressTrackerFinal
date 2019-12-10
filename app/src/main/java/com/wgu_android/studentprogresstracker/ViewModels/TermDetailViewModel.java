@@ -21,7 +21,7 @@ public class TermDetailViewModel extends AndroidViewModel {
 
     public MutableLiveData<TermEntity> mLiveTerm = new MutableLiveData<>();
     public LiveData<List<CourseEntity>> mCourse;
-    public LiveData<List<CourseEntity>> mAssociatedCourses;
+    public List<CourseEntity> mCheckCourses;
     private AppRepository mRepository;
     private Executor executor = Executors.newSingleThreadExecutor();
     private int termId;
@@ -67,9 +67,6 @@ public class TermDetailViewModel extends AndroidViewModel {
     }
 
     public void deleteTerm() {
-
-        //TODO add validation so that a term may not be deleted if it has associated courses
-
         mRepository.deleteTerm(mLiveTerm.getValue());
     }
 

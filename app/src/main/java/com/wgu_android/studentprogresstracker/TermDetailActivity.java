@@ -1,6 +1,8 @@
 package com.wgu_android.studentprogresstracker;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -55,7 +57,6 @@ public class TermDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.textViewTermId_TermDetail)
     TextView mTextViewTermId;
-
 
     final Calendar myCalendarStart = Calendar.getInstance();
     final Calendar myCalendarEnd = Calendar.getInstance();
@@ -232,8 +233,42 @@ public class TermDetailActivity extends AppCompatActivity {
             saveAndReturn();
             return true;
         } else if (item.getItemId() == R.id.action_delete_term) {
-            mViewModel.deleteTerm();
-            finish();
+
+            boolean bTermHasCourse = false;
+
+            for(CourseEntity c: courseData)
+                if(c.getFkTermId() == termId)
+                    bTermHasCourse = true;
+
+            if (bTermHasCourse) {
+                //Alert the user they cannot delete a term that has courses
+                AlertDialog.Builder builder = new AlertDialog.Builder(TermDetailActivity.this);
+
+                builder.setCancelable(true);
+                builder.setTitle("Delete Error!");
+                builder.setMessage("You cannot delete a term that has courses assigned to it.");
+
+                //set cancel button
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                //set OK button
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.show();
+
+            } else {
+                mViewModel.deleteTerm();
+                finish();
+            }
         }
         return super.onOptionsItemSelected(item);
     }

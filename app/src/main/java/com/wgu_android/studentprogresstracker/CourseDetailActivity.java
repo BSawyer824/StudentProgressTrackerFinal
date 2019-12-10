@@ -119,9 +119,7 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
         initViewModel();
         initSpinner();
 
-        //TODO notes should be on an additional screen, with buttons to add or view optional note
-        //TODO optional note should be able to be shared via eitehr email or sms
-
+        //TODO optional note should be able to be shared via either email or sms
 
         //Add a new Assessment to the Course
         FloatingActionButton fab = findViewById(R.id.fab);

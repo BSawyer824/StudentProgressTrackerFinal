@@ -41,4 +41,10 @@ public class CourseNoteViewModel extends AndroidViewModel {
         course.setCourseNote(courseNote);
         mRepository.insertCourse(course);
     }
+
+    public void deleteCourseNote() {
+        CourseEntity course = mLiveCourse.getValue();
+        course.setCourseNote("");
+        mRepository.insertCourse(course);
+    }
 }

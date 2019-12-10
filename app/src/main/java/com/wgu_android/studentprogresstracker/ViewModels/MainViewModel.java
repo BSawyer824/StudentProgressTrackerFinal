@@ -38,8 +38,10 @@ public class MainViewModel extends AndroidViewModel {
     public void deleteAllData() {
 
         //deletes all data in all tables
-        mRepository.deleteAllTerms();
-        mRepository.deleteAllCourses();
         mRepository.deleteAllAssessments();
+        mRepository.deleteAllCourses();
+        mRepository.deleteAllTerms();
+
+
     }
 }

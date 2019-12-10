@@ -9,6 +9,7 @@ import com.wgu_android.studentprogresstracker.Entities.AssessmentEntity;
 import com.wgu_android.studentprogresstracker.Entities.CourseEntity;
 import com.wgu_android.studentprogresstracker.Entities.TermEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -167,6 +168,10 @@ public class AppRepository {
     }
 
 
-
+    public List<CourseEntity> listCourses() {
+        List<CourseEntity> mCourse = new ArrayList<>();
+        mCourse = mDb.courseDao().getCourseList();
+        return mCourse;
+    }
 }
 

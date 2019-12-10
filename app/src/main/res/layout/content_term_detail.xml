@@ -90,4 +90,5 @@
         app:layout_constraintHorizontal_bias="0.306"
         app:layout_constraintStart_toEndOf="@+id/textViewTermEnd"
         app:layout_constraintTop_toBottomOf="@+id/editTextStartDate" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

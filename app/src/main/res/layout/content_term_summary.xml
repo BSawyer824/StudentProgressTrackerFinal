@@ -21,6 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--    TODO set an application icon and title-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

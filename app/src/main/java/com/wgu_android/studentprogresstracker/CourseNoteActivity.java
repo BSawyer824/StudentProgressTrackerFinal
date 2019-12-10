@@ -86,7 +86,7 @@ public class CourseNoteActivity extends AppCompatActivity {
             saveAndReturn();
             return true;
         } else if (item.getItemId() == R.id.action_delete_course_note) {
-            //mViewModel.deleteCourseNote();
+            mViewModel.deleteCourseNote();
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -100,7 +100,6 @@ public class CourseNoteActivity extends AppCompatActivity {
     }
 
     private void saveAndReturn() {
-
         //Save Course Note to DB
         mViewModel.saveCourseNote(mCourseNote.getText().toString());
         finish();

@@ -25,10 +25,6 @@ import static com.wgu_android.studentprogresstracker.Utilities.Constants.LIST_TE
 
 public class MainActivity extends AppCompatActivity {
 
-    //WHERE WE ARE NOW:
-    //TERMS ARE WORKING
-    //NEED TO CREATE NEW OR EDIT EXISTING COURSES, BOTH FROM THE COURSE MENU AND THE TERM MENU
-
 
     @BindView(R.id.btnViewTerms)
     Button mBtnTerms;
