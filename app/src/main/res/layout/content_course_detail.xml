@@ -129,7 +129,8 @@
         android:id="@+id/recyclerViewAssessments"
         android:layout_width="407dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="80dp"
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -160,12 +161,10 @@
         android:id="@+id/btnCourseNotes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="16dp"
         android:text="@string/course_notes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.833"
-        app:layout_constraintStart_toEndOf="@+id/spinner_status"
-        app:layout_constraintTop_toBottomOf="@+id/textView_CourseTermId" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewStatus" />
 
     <EditText
         android:id="@+id/editTextCourseStart"
@@ -186,4 +185,24 @@
         android:inputType="date"
         app:layout_constraintStart_toEndOf="@+id/textViewCourseEnd"
         app:layout_constraintTop_toBottomOf="@+id/editTextCourseName" />
+
+    <Button
+        android:id="@+id/btnSetAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="132dp"
+        android:text="Set Alarm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_CourseTermId" />
+
+    <EditText
+        android:id="@+id/editTextAlarmDate"
+        android:layout_width="114dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="@string/alarm_date"
+        android:inputType="date"
+        app:layout_constraintEnd_toStartOf="@+id/btnSetAlarm"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_status" />
 </androidx.constraintlayout.widget.ConstraintLayout>
