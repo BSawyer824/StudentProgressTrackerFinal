@@ -75,7 +75,7 @@ public class CourseNoteActivity extends AppCompatActivity {
     //menu methods
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_coursedetail, menu);
+        getMenuInflater().inflate(R.menu.menu_course_note, menu);
         return true;
     }
 
@@ -85,7 +85,7 @@ public class CourseNoteActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             saveAndReturn();
             return true;
-        } else if (item.getItemId() == R.id.action_delete_course_note) {
+        } else if (item.getItemId() == R.id.action_course_note_delete) {
             mViewModel.deleteCourseNote();
             finish();
         }
