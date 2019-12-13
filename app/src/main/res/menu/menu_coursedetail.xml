@@ -1,14 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.wgu_android.studentprogresstracker.CourseDetailActivity">
+    <item
+        android:id="@+id/action_course_alarm_start"
+        android:orderInCategory="100"
+        android:title="@string/set_alarm_course_start_date"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_course_alarm_end"
+        android:orderInCategory="100"
+        android:title="@string/set_alarm_course_end_date"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_add_course_note"
+        android:orderInCategory="100"
+        android:title="@string/add_course_note"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_delete_course"
         android:orderInCategory="100"
         android:title="@string/delete_course"
-        android:icon="@drawable/ic_delete"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 
 </menu>

@@ -234,43 +234,49 @@ public class TermDetailActivity extends AppCompatActivity {
             return true;
         } else if (item.getItemId() == R.id.action_delete_term) {
 
-            boolean bTermHasCourse = false;
+            checkTermHasCourse();
 
-            for(CourseEntity c: courseData)
-                if(c.getFkTermId() == termId)
-                    bTermHasCourse = true;
-
-            if (bTermHasCourse) {
-                //Alert the user they cannot delete a term that has courses
-                AlertDialog.Builder builder = new AlertDialog.Builder(TermDetailActivity.this);
-
-                builder.setCancelable(true);
-                builder.setTitle("Delete Error!");
-                builder.setMessage("You cannot delete a term that has courses assigned to it.");
-
-                //set cancel button
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                //set OK button
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                builder.show();
-
-            } else {
-                mViewModel.deleteTerm();
-                finish();
-            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void checkTermHasCourse() {
+
+        boolean bTermHasCourse = false;
+
+        for(CourseEntity c: courseData)
+            if(c.getFkTermId() == termId)
+                bTermHasCourse = true;
+
+        if (bTermHasCourse) {
+            //Alert the user they cannot delete a term that has courses
+            AlertDialog.Builder builder = new AlertDialog.Builder(TermDetailActivity.this);
+
+            builder.setCancelable(true);
+            builder.setTitle("Delete Error!");
+            builder.setMessage("You cannot delete a term that has courses assigned to it.");
+
+            //set cancel button
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            //set OK button
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builder.show();
+
+        } else {
+            mViewModel.deleteTerm();
+            finish();
+        }
     }
 
     @Override

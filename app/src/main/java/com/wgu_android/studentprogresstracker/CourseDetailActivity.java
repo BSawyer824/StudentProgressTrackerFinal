@@ -1,6 +1,12 @@
 package com.wgu_android.studentprogresstracker;
 
+import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,10 +15,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.wgu_android.studentprogresstracker.Adapters.AssessmentsAdapter;
 import com.wgu_android.studentprogresstracker.Entities.AssessmentEntity;
 import com.wgu_android.studentprogresstracker.Entities.CourseEntity;
+import com.wgu_android.studentprogresstracker.Utilities.NotificationReceiver;
 import com.wgu_android.studentprogresstracker.ViewModels.CourseDetailViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -29,6 +37,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,9 +55,13 @@ import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_NOTE_ACITIVITY_REQUEST_CODE;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_STATUS;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_TERM_ID;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.DEFAULT_NOTIFICATION_CHANNEL_ID;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.LIST_TERM_ACTIVITY_REQUEST_CODE;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.NEW_COURSE_ACTIVITY_REQUEST_CODE;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.NOTIFICATION_CHANNEL_ID;
+import static com.wgu_android.studentprogresstracker.Utilities.ConvertTypes.toDate;
+import static java.util.Calendar.HOUR_OF_DAY;
 
 public class CourseDetailActivity extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
     //**************************************************
@@ -80,9 +93,6 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
     @BindView(R.id.textView_CourseTermId)
     TextView mTextViewCourseTermId;
 
-    @BindView(R.id.btnCourseNotes)
-    Button btnCourseNote;
-
 
     final Calendar myCalendarStart = Calendar.getInstance();
     final Calendar myCalendarEnd = Calendar.getInstance();
@@ -101,6 +111,11 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
 
     private List<AssessmentEntity> assessmentData = new ArrayList<>();
     private AssessmentsAdapter mAdapter;
+
+    //****************************************************************************
+    //Alarm Variables
+    final Calendar myCalendarAlarm = Calendar.getInstance();
+    DatePickerDialog.OnDateSetListener alarmDate;
 
     //****************************************************************************
     //Main Methods
@@ -133,17 +148,6 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
                 intent.putExtra(ASSESSMENT_COURSE_ID, courseId);
                 intent.putExtra(ASSESSMENT_NEW, true);
                 startActivityForResult(intent, NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE);
-            }
-        });
-
-        //Add a note to the Course
-        final Button buttonNote = btnCourseNote;
-        buttonNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentNote = new Intent(CourseDetailActivity.this, CourseNoteActivity.class);
-                intentNote.putExtra(COURSE_KEY_ID, courseId);
-                startActivityForResult(intentNote, COURSE_NOTE_ACITIVITY_REQUEST_CODE);
             }
         });
 
@@ -238,8 +242,8 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
             public void onChanged(List<AssessmentEntity> assessmentEntities) {
                 assessmentData.clear();
 
-                for(AssessmentEntity a: assessmentEntities)
-                    if(a.getFkCourseId() == extras.getInt(COURSE_KEY_ID, 0))
+                for (AssessmentEntity a : assessmentEntities)
+                    if (a.getFkCourseId() == extras.getInt(COURSE_KEY_ID, 0))
                         assessmentData.add(a);
 
                 if (mAdapter == null) {
@@ -276,16 +280,66 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //Save Button
-        if (item.getItemId() == android.R.id.home) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
             saveAndReturn();
             return true;
-        } else if (item.getItemId() == R.id.action_delete_course) {
-            mViewModel.deleteCourse();
-            finish();
+        } else if (id == R.id.action_delete_course) {
+            checkCourseHasAssessment();
+            //finish();
+        } else if (id == R.id.action_course_alarm_start) {
+            setCourseAlarm(myCalendarStart, "Start", mViewModel.mLiveCourse.getValue().getCourseName());
+        } else if (id == R.id.action_course_alarm_end) {
+            setCourseAlarm(myCalendarEnd, "End", mEditTextCourseName.getText().toString());
+        } else if (id == R.id.action_add_course_note) {
+
+            Intent intentNote = new Intent(CourseDetailActivity.this, CourseNoteActivity.class);
+            intentNote.putExtra(COURSE_KEY_ID, courseId);
+            startActivityForResult(intentNote, COURSE_NOTE_ACITIVITY_REQUEST_CODE);
+
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void checkCourseHasAssessment() {
+
+        boolean bTermHasAssessment = false;
+
+        for(AssessmentEntity a: assessmentData)
+            if(a.getFkCourseId() == courseId)
+                bTermHasAssessment = true;
+
+        if (bTermHasAssessment) {
+            //Alert the user they cannot delete a term that has courses
+            AlertDialog.Builder builder = new AlertDialog.Builder(CourseDetailActivity.this);
+
+            builder.setCancelable(true);
+            builder.setTitle("Delete Error!");
+            builder.setMessage("You cannot delete a course that has Assessments assigned to it.");
+
+            //set cancel button
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            //set OK button
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builder.show();
+
+        } else {
+            mViewModel.deleteCourse();
+            finish();
+        }
+
+    }
 
     @Override
     public void onBackPressed() {
@@ -304,7 +358,6 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
 
         finish();
     }
-
 
 
     //***************************************************************************************
@@ -337,8 +390,8 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
     public int getSpinnerPosition(Spinner spinner, String mSpinnerSelection) {
         int position = 0;
 
-        for (int i=0; i<spinner.getCount(); i++)
-            if(spinner.getItemAtPosition(i).equals(mSpinnerSelection))
+        for (int i = 0; i < spinner.getCount(); i++)
+            if (spinner.getItemAtPosition(i).equals(mSpinnerSelection))
                 position = i;
 
         return position;
@@ -375,4 +428,36 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
         mEditTextEndDate.setText(sdf.format(coursesEntity.getCourseEnd()));
         myCalendarEnd.setTime(coursesEntity.getCourseEnd());
     }
+
+
+    //**************************************************************************************
+    //Notification Methods
+
+    private void setCourseAlarm(Calendar mCalendarAlarmDate, String title, String courseName) {
+
+        mCalendarAlarmDate.set(Calendar.HOUR_OF_DAY, 0);
+        mCalendarAlarmDate.set(Calendar.MINUTE, 0);
+        mCalendarAlarmDate.set(Calendar.SECOND, 0);
+        mCalendarAlarmDate.set(Calendar.MILLISECOND, 0);
+
+        NotificationReceiver mReceiver = new NotificationReceiver();
+        mReceiver.setNotificationTitle(title);
+        mReceiver.setNotificationCourseName(courseName);
+        mReceiver.setNotificationType("Course");
+
+        long alarmDelay = (mCalendarAlarmDate.getTimeInMillis() + 28800000) - System.currentTimeMillis(); //will go off at 8am
+        //long alarmDelay = (mCalendarAlarmDate.getTimeInMillis() + 77760000) - System.currentTimeMillis(); //test alarm 9:30 pm
+
+        String sAlarmDelay = Long.toString(alarmDelay);
+        Intent intent=new Intent(CourseDetailActivity.this,NotificationReceiver.class);
+        PendingIntent sender= PendingIntent.getBroadcast(CourseDetailActivity.this,0,intent,0);
+        AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+alarmDelay, sender);
+
+        Toast toast=Toast.makeText(getApplicationContext(),"Alarm set for 8am the day the Course " + title,Toast.LENGTH_SHORT);
+        toast.setMargin(50,50);
+        toast.show();
+
+    }
+
 }

@@ -36,16 +36,16 @@ public class SampleData {
     }
 
     public static List<TermEntity> getTerm() {
-        term.add(new TermEntity(SAMPLE_TEXT_1, getDate(500), getDate(2500)));
-        term.add(new TermEntity(SAMPLE_TEXT_2, getDate(5000), getDate(25000)));
-        term.add(new TermEntity(SAMPLE_TEXT_3, getDate(15000), getDate(250000)));
+        term.add(new TermEntity(SAMPLE_TEXT_1, getDate(50000), getDate(2500000)));
+        term.add(new TermEntity(SAMPLE_TEXT_2, getDate(500000), getDate(25000000)));
+        term.add(new TermEntity(SAMPLE_TEXT_3, getDate(150000), getDate(25000000)));
         return term;
     }
 
     public static List<CourseEntity> getCourse() {
-        course.add(new CourseEntity(SAMPLE_TEXT_4, getDate(500), getDate(2500), 1));
-        course.add(new CourseEntity(SAMPLE_TEXT_5, getDate(5000), getDate(25000), 1));
-        course.add(new CourseEntity(SAMPLE_TEXT_8, getDate(5000), getDate(25000), 2));
+        course.add(new CourseEntity(SAMPLE_TEXT_4, getDate(50000), getDate(25000), 1));
+        course.add(new CourseEntity(SAMPLE_TEXT_5, getDate(500000), getDate(2500000), 1));
+        course.add(new CourseEntity(SAMPLE_TEXT_8, getDate(50000), getDate(2500000), 2));
         return course;
     }
 

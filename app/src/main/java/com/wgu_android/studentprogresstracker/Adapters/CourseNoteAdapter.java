@@ -43,16 +43,6 @@ public class CourseNoteAdapter  extends RecyclerView.Adapter<CourseNoteAdapter.V
     public void onBindViewHolder(@NonNull CourseNoteAdapter.ViewHolder holder, int position) {
         final CourseEntity course = mCourses.get(position);
 
-
-        //When course note button is clicked, send course id to next screen
-        holder.btnCourseNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, CourseNoteActivity.class);
-                intent.putExtra(COURSE_KEY_ID, course.getCourseID());
-                mContext.startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -62,8 +52,6 @@ public class CourseNoteAdapter  extends RecyclerView.Adapter<CourseNoteAdapter.V
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView (R.id.btnCourseNotes)
-        Button btnCourseNote;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

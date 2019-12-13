@@ -1,11 +1,16 @@
 package com.wgu_android.studentprogresstracker;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.wgu_android.studentprogresstracker.Entities.AssessmentEntity;
+import com.wgu_android.studentprogresstracker.Utilities.NotificationReceiver;
 import com.wgu_android.studentprogresstracker.ViewModels.AssessmentDetailViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +27,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,6 +39,8 @@ import butterknife.ButterKnife;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESMENT_KEY_ID;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_COURSE_ID;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_TYPE;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_KEY_ID;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_NOTE_ACITIVITY_REQUEST_CODE;
 
 public class AssessmentDetailActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener  {
 
@@ -175,14 +183,46 @@ public class AssessmentDetailActivity extends AppCompatActivity implements Adapt
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //Save Button
-        if (item.getItemId() == android.R.id.home) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
             saveAndReturn();
             return true;
-        } else if (item.getItemId() == R.id.action_delete_assessment) {
+        } else if (id == R.id.action_delete_assessment) {
             mViewModel.deleteAssessment();
             finish();
+        } else if (id == R.id.action_assessment_alarm_due) {
+            setAssessmentAlarm(myCalendarDue, "Due", mViewModel.mLiveAssessment.getValue().getAssessmentName());
+        } else if (id == R.id.action_assessment_alarm_goal) {
+            setAssessmentAlarm(myCalendarGoal, "Goal", mViewModel.mLiveAssessment.getValue().getAssessmentName());
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setAssessmentAlarm(Calendar mCalendarAlarmDate, String title, String assessmentName) {
+
+
+        mCalendarAlarmDate.set(Calendar.HOUR_OF_DAY, 0);
+        mCalendarAlarmDate.set(Calendar.MINUTE, 0);
+        mCalendarAlarmDate.set(Calendar.SECOND, 0);
+        mCalendarAlarmDate.set(Calendar.MILLISECOND, 0);
+
+        NotificationReceiver mReceiver = new NotificationReceiver();
+        mReceiver.setNotificationTitle(title);
+        mReceiver.setNotificationCourseName(assessmentName);
+        mReceiver.setNotificationType("Assessment");
+
+        long alarmDelay = (mCalendarAlarmDate.getTimeInMillis() + 28800000) - System.currentTimeMillis(); //will go off at 8am
+        //long alarmDelay = (mCalendarAlarmDate.getTimeInMillis() + 77760000) - System.currentTimeMillis(); //test alarm 9:30 pm
+
+        String sAlarmDelay = Long.toString(alarmDelay);
+        Intent intent=new Intent(AssessmentDetailActivity.this,NotificationReceiver.class);
+        PendingIntent sender= PendingIntent.getBroadcast(AssessmentDetailActivity.this,0,intent,0);
+        AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+alarmDelay, sender);
+
+        Toast toast=Toast.makeText(getApplicationContext(),"Alarm set for 8am the day of Assessment " + title,Toast.LENGTH_SHORT);
+        toast.setMargin(50,50);
+        toast.show();
     }
 
 
