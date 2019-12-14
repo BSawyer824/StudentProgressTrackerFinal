@@ -29,8 +29,6 @@ import butterknife.ButterKnife;
 
 public class CourseSummaryActivity extends AppCompatActivity {
 
-    //TODO set up notifications for course start and end dates
-
 
     @BindView(R.id.recyclerView_AllCourses)
     RecyclerView mRecyclerView;

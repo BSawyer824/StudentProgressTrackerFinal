@@ -15,6 +15,7 @@ public class MainViewModel extends AndroidViewModel {
 
     //TODO notes for paper
     //technical challenges - spinner working, not correctly looking up position, solution, chnage to a loop
+    //code examples for sharing notes were from prior to Android X, had to upgrade them to the current version
 
     //********************************************
     //Variable Declarations

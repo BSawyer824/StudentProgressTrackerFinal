@@ -15,14 +15,10 @@ import com.wgu_android.studentprogresstracker.R;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
-public class NotificationReceiver extends BroadcastReceiver {
+public class CourseEndReceiver  extends BroadcastReceiver {
 
     static int notificationID;
-    String channel_id="test";
-    public String notificationTitle;
-    public String notificationCourseName;
-    public String notificationType; //Course or Assessment
-
+    String channel_id="course_end";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -31,9 +27,11 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         Notification n= new NotificationCompat.Builder(context, channel_id)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentText(notificationType + ":  " + notificationCourseName)
-                .setContentTitle(notificationType + notificationTitle + "Alarm! ").build();
+                .setContentText("Your course ends today!")
+                .setContentTitle("Course End Alarm!").build();
 
+        // Register the channel with the system; you can't change the importance
+        // or other notification behaviors after this
         NotificationManager notificationManager=(NotificationManager)context.getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(notificationID++,n);
 
@@ -42,8 +40,8 @@ public class NotificationReceiver extends BroadcastReceiver {
         // Create the NotificationChannel
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = context.getResources().getString(R.string.channel_name);
-            String description = context.getString(R.string.channel_description);
+            CharSequence name = context.getResources().getString(R.string.channel_courseend_name);
+            String description = context.getString(R.string.channel_courseend_description);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
@@ -53,27 +51,4 @@ public class NotificationReceiver extends BroadcastReceiver {
         }
     }
 
-    public String getNotificationTitle() {
-        return notificationTitle;
-    }
-
-    public void setNotificationTitle(String notificationTitle) {
-        this.notificationTitle = notificationTitle;
-    }
-
-    public String getNotificationCourseName() {
-        return notificationCourseName;
-    }
-
-    public void setNotificationCourseName(String notificationCourseName) {
-        this.notificationCourseName = notificationCourseName;
-    }
-
-    public String getNotificationType() {
-        return notificationType;
-    }
-
-    public void setNotificationType(String notificationType) {
-        this.notificationType = notificationType;
-    }
 }

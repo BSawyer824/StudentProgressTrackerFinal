@@ -3,7 +3,6 @@ package com.wgu_android.studentprogresstracker;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,16 +10,15 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.wgu_android.studentprogresstracker.Adapters.AssessmentsAdapter;
 import com.wgu_android.studentprogresstracker.Entities.AssessmentEntity;
 import com.wgu_android.studentprogresstracker.Entities.CourseEntity;
-import com.wgu_android.studentprogresstracker.Utilities.NotificationReceiver;
+import com.wgu_android.studentprogresstracker.Utilities.CourseEndReceiver;
+import com.wgu_android.studentprogresstracker.Utilities.CourseStartReceiver;
 import com.wgu_android.studentprogresstracker.ViewModels.CourseDetailViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -32,7 +30,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -55,13 +52,9 @@ import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_NOTE_ACITIVITY_REQUEST_CODE;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_STATUS;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_TERM_ID;
-import static com.wgu_android.studentprogresstracker.Utilities.Constants.DEFAULT_NOTIFICATION_CHANNEL_ID;
-import static com.wgu_android.studentprogresstracker.Utilities.Constants.LIST_TERM_ACTIVITY_REQUEST_CODE;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE;
-import static com.wgu_android.studentprogresstracker.Utilities.Constants.NEW_COURSE_ACTIVITY_REQUEST_CODE;
-import static com.wgu_android.studentprogresstracker.Utilities.Constants.NOTIFICATION_CHANNEL_ID;
-import static com.wgu_android.studentprogresstracker.Utilities.ConvertTypes.toDate;
-import static java.util.Calendar.HOUR_OF_DAY;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.NOTIFICATION_TEXT;
+import static com.wgu_android.studentprogresstracker.Utilities.Constants.NOTIFICATION_TITLE;
 
 public class CourseDetailActivity extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
     //**************************************************
@@ -134,7 +127,6 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
         initViewModel();
         initSpinner();
 
-        //TODO optional note should be able to be shared via either email or sms
 
         //Add a new Assessment to the Course
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -288,9 +280,11 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
             checkCourseHasAssessment();
             //finish();
         } else if (id == R.id.action_course_alarm_start) {
-            setCourseAlarm(myCalendarStart, "Start", mViewModel.mLiveCourse.getValue().getCourseName());
+            setCourseAlarm(myCalendarStart, "Start");
+
         } else if (id == R.id.action_course_alarm_end) {
-            setCourseAlarm(myCalendarEnd, "End", mEditTextCourseName.getText().toString());
+            setCourseAlarm(myCalendarStart, "End");
+
         } else if (id == R.id.action_add_course_note) {
 
             Intent intentNote = new Intent(CourseDetailActivity.this, CourseNoteActivity.class);
@@ -433,29 +427,45 @@ public class CourseDetailActivity extends AppCompatActivity  implements AdapterV
     //**************************************************************************************
     //Notification Methods
 
-    private void setCourseAlarm(Calendar mCalendarAlarmDate, String title, String courseName) {
+    private void setCourseAlarm(Calendar mCalendarAlarmDate, String title) {
 
         mCalendarAlarmDate.set(Calendar.HOUR_OF_DAY, 0);
         mCalendarAlarmDate.set(Calendar.MINUTE, 0);
         mCalendarAlarmDate.set(Calendar.SECOND, 0);
         mCalendarAlarmDate.set(Calendar.MILLISECOND, 0);
 
-        NotificationReceiver mReceiver = new NotificationReceiver();
-        mReceiver.setNotificationTitle(title);
-        mReceiver.setNotificationCourseName(courseName);
-        mReceiver.setNotificationType("Course");
-
         long alarmDelay = (mCalendarAlarmDate.getTimeInMillis() + 28800000) - System.currentTimeMillis(); //will go off at 8am
         //long alarmDelay = (mCalendarAlarmDate.getTimeInMillis() + 77760000) - System.currentTimeMillis(); //test alarm 9:30 pm
 
         String sAlarmDelay = Long.toString(alarmDelay);
-        Intent intent=new Intent(CourseDetailActivity.this,NotificationReceiver.class);
-        PendingIntent sender= PendingIntent.getBroadcast(CourseDetailActivity.this,0,intent,0);
-        AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+alarmDelay, sender);
+        Intent intent;
 
-        Toast toast=Toast.makeText(getApplicationContext(),"Alarm set for 8am the day the Course " + title,Toast.LENGTH_SHORT);
-        toast.setMargin(50,50);
+        if (title == "Start") {
+            intent=new Intent(CourseDetailActivity.this, CourseStartReceiver.class);
+//            PendingIntent sender = PendingIntent.getBroadcast(CourseDetailActivity.this, 0, intent, 0);
+//            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + alarmDelay, sender);
+//
+//            Toast toast = Toast.makeText(getApplicationContext(), "Alarm set for 8am the day the Course " + title + "s.", Toast.LENGTH_SHORT);
+//            toast.setMargin(50, 50);
+//            toast.show();
+        } else {
+            intent=new Intent(CourseDetailActivity.this, CourseEndReceiver.class);
+//            PendingIntent sender = PendingIntent.getBroadcast(CourseDetailActivity.this, 0, intent, 0);
+//            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + alarmDelay, sender);
+//
+//            Toast toast = Toast.makeText(getApplicationContext(), "Alarm set for 8am the day the Course " + title + "s.", Toast.LENGTH_SHORT);
+//            toast.setMargin(50, 50);
+//            toast.show();
+        }
+
+        PendingIntent sender = PendingIntent.getBroadcast(CourseDetailActivity.this, 0, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + alarmDelay, sender);
+
+        Toast toast = Toast.makeText(getApplicationContext(), "Alarm set for 8am the day the Course " + title + "s.", Toast.LENGTH_SHORT);
+        toast.setMargin(50, 50);
         toast.show();
 
     }

@@ -25,9 +25,6 @@ import butterknife.ButterKnife;
 
 public class AssessmentSummaryActivity extends AppCompatActivity {
 
-    //TODO set up notifications for assessment goal dates
-
-
     @BindView(R.id.recyclerView_AllAssessments)
     RecyclerView mRecyclerView;
 

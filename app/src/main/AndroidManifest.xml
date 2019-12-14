@@ -84,7 +84,22 @@
         </activity>
 
         <receiver
-            android:name=".Utilities.NotificationReceiver"
+        android:name=".Utilities.CourseStartReceiver"
+        android:enabled="true"
+        android:exported="true" />
+
+        <receiver
+            android:name=".Utilities.CourseEndReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".Utilities.AssessmentDueReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".Utilities.AssessmentGoalReceiver"
             android:enabled="true"
             android:exported="true" />
     </application>

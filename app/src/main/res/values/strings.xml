@@ -147,8 +147,8 @@
     <string name="title_activity_test">test</string>
     <string name="delete_note">Delete Note</string>
     <string name="alarm_date">Alarm Date</string>
-    <string name="channel_name">course notification channel</string>
-    <string name="channel_description">notificaiton channel for course alarms</string>
+    <string name="channel_name">course start notification channel</string>
+    <string name="channel_description">notificaiton channel for course start alarms</string>
     <string name="set_course_start_alarm">Set Course Start Alarm</string>
     <string name="set_course_end_alarm">Set Course End Alarm</string>
     <string name="set_alarm_course_start_date">Set Alarm: Course Start Date</string>
@@ -156,6 +156,12 @@
     <string name="add_course_note">Add Course Note</string>
     <string name="set_alarm_due_date">Set Alarm: Due Date</string>
     <string name="set_alarm_goal_date">Set Alarm: Goal Date</string>
-    <string name="delete_assessment">Delete Assessment</string>
+    <string name="share_notes">Share Notes</string>
 
+    <string name="channel_courseend_name">course end notification channel</string>
+    <string name="channel_courseend_description">notificaiton channel for course endalarms</string>
+    <string name="channel_assessgoal_name">assessment goal notification channel</string>
+    <string name="channel_assessgoal_description">notificaiton channel for assessment goal alarms</string>
+    <string name="channel_assessdue_name">assessment due notification channel</string>
+    <string name="channel_assessdue_description">notificaiton channel for assessment due alarms</string>
 </resources>

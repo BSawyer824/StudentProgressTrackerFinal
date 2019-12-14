@@ -1,5 +1,6 @@
 package com.wgu_android.studentprogresstracker;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -8,7 +9,10 @@ import com.wgu_android.studentprogresstracker.Entities.CourseEntity;
 import com.wgu_android.studentprogresstracker.ViewModels.CourseNoteViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ActionProvider;
+import androidx.core.view.MenuItemCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.room.PrimaryKey;
@@ -22,6 +26,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static androidx.core.view.MenuItemCompat.*;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_KEY_ID;
 
 public class CourseNoteActivity extends AppCompatActivity {
@@ -33,6 +38,7 @@ public class CourseNoteActivity extends AppCompatActivity {
     private CourseNoteViewModel mViewModel;
     private int courseId;
     private Boolean mNewNote;
+    private ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +82,9 @@ public class CourseNoteActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_course_note, menu);
-        return true;
+
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -88,9 +96,22 @@ public class CourseNoteActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.action_course_note_delete) {
             mViewModel.deleteCourseNote();
             finish();
+        } else if (item.getItemId() == R.id.action_course_send_notes) {
+            saveAndReturn();
+            CourseEntity course = mViewModel.mLiveCourse.getValue();
+
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, course.getCourseNote());
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, course.getCourseName() + "Notes: ");
+
+            startActivity(Intent.createChooser(shareIntent, "Share Via:"));
         }
+
         return super.onOptionsItemSelected(item);
     }
+
+
 
 
     @Override

@@ -1,14 +1,8 @@
 package com.wgu_android.studentprogresstracker;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.wgu_android.studentprogresstracker.Utilities.NotificationReceiver;
 import com.wgu_android.studentprogresstracker.ViewModels.MainViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
