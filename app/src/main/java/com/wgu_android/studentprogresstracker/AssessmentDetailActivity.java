@@ -7,10 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.wgu_android.studentprogresstracker.Entities.AssessmentEntity;
-import com.wgu_android.studentprogresstracker.Utilities.NotificationReceiver;
+import com.wgu_android.studentprogresstracker.Utilities.AssessmentDueReceiver;
+import com.wgu_android.studentprogresstracker.Utilities.AssessmentGoalReceiver;
+import com.wgu_android.studentprogresstracker.Utilities.CourseStartReceiver;
 import com.wgu_android.studentprogresstracker.ViewModels.AssessmentDetailViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,8 +39,6 @@ import butterknife.ButterKnife;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESMENT_KEY_ID;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_COURSE_ID;
 import static com.wgu_android.studentprogresstracker.Utilities.Constants.ASSESSMENT_TYPE;
-import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_KEY_ID;
-import static com.wgu_android.studentprogresstracker.Utilities.Constants.COURSE_NOTE_ACITIVITY_REQUEST_CODE;
 
 public class AssessmentDetailActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener  {
 
@@ -83,8 +81,6 @@ public class AssessmentDetailActivity extends AppCompatActivity implements Adapt
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_save);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //TODO set alerts for goal dates on assessments
 
         ButterKnife.bind(this);
         initViewModel();
@@ -176,7 +172,7 @@ public class AssessmentDetailActivity extends AppCompatActivity implements Adapt
     //menu methods
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_coursedetail, menu);
+        getMenuInflater().inflate(R.menu.menu_assessmentdetail, menu);
         return true;
     }
 
@@ -191,14 +187,14 @@ public class AssessmentDetailActivity extends AppCompatActivity implements Adapt
             mViewModel.deleteAssessment();
             finish();
         } else if (id == R.id.action_assessment_alarm_due) {
-            setAssessmentAlarm(myCalendarDue, "Due", mViewModel.mLiveAssessment.getValue().getAssessmentName());
+            setAssessmentAlarm(myCalendarDue, "Due");
         } else if (id == R.id.action_assessment_alarm_goal) {
-            setAssessmentAlarm(myCalendarGoal, "Goal", mViewModel.mLiveAssessment.getValue().getAssessmentName());
+            setAssessmentAlarm(myCalendarGoal, "Goal");
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void setAssessmentAlarm(Calendar mCalendarAlarmDate, String title, String assessmentName) {
+    private void setAssessmentAlarm(Calendar mCalendarAlarmDate, String title) {
 
 
         mCalendarAlarmDate.set(Calendar.HOUR_OF_DAY, 0);
@@ -206,23 +202,26 @@ public class AssessmentDetailActivity extends AppCompatActivity implements Adapt
         mCalendarAlarmDate.set(Calendar.SECOND, 0);
         mCalendarAlarmDate.set(Calendar.MILLISECOND, 0);
 
-        NotificationReceiver mReceiver = new NotificationReceiver();
-        mReceiver.setNotificationTitle(title);
-        mReceiver.setNotificationCourseName(assessmentName);
-        mReceiver.setNotificationType("Assessment");
-
         long alarmDelay = (mCalendarAlarmDate.getTimeInMillis() + 28800000) - System.currentTimeMillis(); //will go off at 8am
         //long alarmDelay = (mCalendarAlarmDate.getTimeInMillis() + 77760000) - System.currentTimeMillis(); //test alarm 9:30 pm
 
-        String sAlarmDelay = Long.toString(alarmDelay);
-        Intent intent=new Intent(AssessmentDetailActivity.this,NotificationReceiver.class);
+        Intent intent;
+        if (title == "Due") {
+            intent = new Intent(AssessmentDetailActivity.this, AssessmentDueReceiver.class);
+            Toast toast=Toast.makeText(getApplicationContext(),"Alarm set for 8am the day the Assessment is Due ",Toast.LENGTH_SHORT);
+            toast.setMargin(50,50);
+            toast.show();
+        } else {
+            intent = new Intent(AssessmentDetailActivity.this, AssessmentGoalReceiver.class);
+            Toast toast=Toast.makeText(getApplicationContext(),"Alarm set for 8am the day of the Assessment Goal ",Toast.LENGTH_SHORT);
+            toast.setMargin(50,50);
+            toast.show();
+        }
         PendingIntent sender= PendingIntent.getBroadcast(AssessmentDetailActivity.this,0,intent,0);
         AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+alarmDelay, sender);
 
-        Toast toast=Toast.makeText(getApplicationContext(),"Alarm set for 8am the day of Assessment " + title,Toast.LENGTH_SHORT);
-        toast.setMargin(50,50);
-        toast.show();
+
     }
 
 
